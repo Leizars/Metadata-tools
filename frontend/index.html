@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Metadata Cleaner</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jersey+10&display=swap" rel="stylesheet">
+
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Jersey 10', sans-serif;
+            background-color: #91C8E4;
+            color: #FFFBDE;
+            overflow: hidden; 
+        }
+
+        .sky-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .main-content {
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .main-content h1 {
+            font-size: clamp(40px, 8vw, 120px);
+            text-shadow: 5px 5px 0px #3a3a3a;
+            margin: 0;
+            line-height: 1.1;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: .1em solid #FFFBDE; 
+            width: 0;
+            animation: 
+                typing-line1 2.5s steps(20, end) 0.5s forwards,
+                blink-temporary 0.75s step-end 0.5s 4 forwards;
+        }
+
+        .subtitle {
+            display: inline-block;
+            color: #FFFBDE;
+            text-shadow: 4px 4px 0px #3a3a3a;
+            font-size: clamp(40px, 8vw, 120px);
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: .1em solid transparent; 
+            
+            width: 0;
+            animation: 
+                typing-line2 1.5s steps(9, end) 3s forwards,
+                blink-and-stop 0.75s step-end 3s 2 forwards;
+        }
+
+        .next-link {
+            font-size: clamp(30px, 6vw, 90px);
+            color: #FFFBDE;
+            text-decoration: none;
+            text-shadow: 4px 4px 0px #3a3a3a;
+            display: inline-block;
+            margin-top: 1rem;
+            opacity: 0; 
+
+            animation: 
+                fade-in 0.5s ease-out 4.5s forwards,
+                highlight-button 2.5s ease-in-out 5s infinite;
+        }
+
+        .city-background {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 5;
+            line-height: 0;
+            animation: popup-city 1s ease-out forwards;
+        }
+
+        .city-background img {
+            width: 100%;
+            display: block;
+            height: auto;
+        }
+
+        .clouds {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; 
+        }
+
+        .cloud {
+            position: absolute;
+            animation: move-clouds linear infinite;
+            opacity: 0.9;
+        }
+
+        .cloud1 { width: 300px; top: 15%; animation-duration: 70s; right: 50px; }
+        .cloud2 { width: 400px; top: 30%; animation-duration: 50s; animation-delay: -5s; left: -150px; }
+        .cloud3 { width: 450px; top: -5%; animation-duration: 90s; animation-delay: -20s; left: -250px; }
+        .cloud4 { width: 350px; top: 40%; animation-duration: 90s; animation-delay: -5s; right: 50px; }
+        .cloud5 { width: 350px; top: 60%; animation-duration: 100s; animation-delay: -15s; left: 50px; }
+
+        @keyframes move-clouds {
+            from { transform: translateX(0); }
+            to { transform: translateX(calc(100vw + 100%)); }
+        }
+
+        @keyframes popup-city {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+         @keyframes typing-line1 {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes typing-line2 {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink-temporary {
+            50% { border-color: #FFFBDE; }
+            to { border-color: transparent; }
+        }
+
+        @keyframes blink-infinite {
+            from, to { border-color: transparent; }
+            50% { border-color: #FFFBDE; }
+        }
+
+       @keyframes fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes highlight-button {
+            0%, 100% {
+                transform: scale(1);
+                text-shadow: 4px 4px 0px #3a3a3a;
+            }
+            50% {
+                transform: scale(1.05);
+                text-shadow: 4px 4px 0px #3a3a3a, 0 0 25px #fffadd;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sky-container">
+        <div class="clouds">
+            <img src="/static/image/cloud.png" alt="Awan" class="cloud cloud1">
+            <img src="/static/image/cloud.png" alt="Awan" class="cloud cloud2">
+            <img src="/static/image/cloud.png" alt="Awan" class="cloud cloud3">
+            <img src="/static/image/cloud.png" alt="Awan" class="cloud cloud4">
+            <img src="/static/image/cloud.png" alt="Awan" class="cloud cloud5">
+        </div>
+
+        <div class="main-content">
+            <h1>Welcome to Metadata</h1>
+            <span class="subtitle">Cleaner!</span>
+            <a href="cleaned.html" class="next-link page-transition-link">>></a>
+        </div>
+
+        <div class="city-background">
+            <img src="/static/image/city.png" alt="Pemandangan Kota dengan Balon Udara">
+        </div>
+    </div>
+</body>
+</html>

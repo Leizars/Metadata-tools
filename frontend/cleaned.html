@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Image - Metadata Cleaner</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jersey+10&display=swap" rel="stylesheet">
+    
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Jersey 10', sans-serif;
+            background-color: #91C8E4; 
+            overflow: hidden;
+        }
+
+        .page-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .back-link {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            color: #FFFBDE;
+            text-decoration: none;
+            z-index: 20;
+        }
+
+        
+        .foreground-scenery {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 5;
+            pointer-events: none;
+            line-height: 0; 
+            
+           
+            opacity: 0;
+            animation: slide-up-scenery 1s ease-out 0.2s forwards;
+        }
+        
+        .foreground-scenery img {
+            width: 100%; 
+            height: auto;  
+            display: block; 
+        }
+        
+        .upload-container {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%); 
+            
+            background-color: #FFFBDE;
+            border-radius: 25px;
+            border: 3px dashed #aed8ea;
+            padding: 3rem 5rem;
+            text-align: center;
+            z-index: 10;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+
+            opacity: 0;
+            animation: scale-up-box 0.7s ease-out 0.7s forwards;
+        }
+
+        .upload-title {
+            font-size: 2.5em;
+            color: #00A9FF;
+            display: block;
+            margin-bottom: 1rem;
+        }
+        
+        .upload-area {
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .icon-placeholder { margin-bottom: 1.5rem; }
+        .icon-placeholder svg { width: 80px; height: 80px; fill: #3a3a3a; }
+
+        #file-name-display {
+            color: #3a3a3a;
+            font-size: 1.2em;
+            margin-top: 0.5rem;
+            min-height: 1.2em;
+        }
+
+        .upload-button {
+            font-family: 'Jersey 10', sans-serif;
+            font-size: 2em;
+            background-color: #CDF5FD;
+            border: 3px solid #00A9FF;
+            color: #00A9FF;
+            padding: 5px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 4px 4px 0px #00A9FF;
+            transition: all 0.1s ease-in-out;
+            margin-top: 1rem;
+        }
+        .upload-button:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0px #00A9FF; }
+        .upload-button:active { transform: translate(4px, 4px); box-shadow: none; }
+
+        .clouds {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; 
+        }
+
+        .cloud {
+            position: absolute;
+            animation: move-clouds linear infinite;
+            opacity: 0.9;
+        }
+
+        .cloud1 { width: 300px; top: 15%; animation-duration: 70s; right: 50px; }
+        .cloud2 { width: 400px; top: 30%; animation-duration: 50s; animation-delay: -5s; left: -150px; }
+        .cloud3 { width: 450px; top: -5%; animation-duration: 90s; animation-delay: -20s; left: -250px; }
+
+        @keyframes move-clouds {
+            from { transform: translateX(0); }
+            to { transform: translateX(calc(100vw + 100%)); }
+        }
+
+        @keyframes slide-up-scenery {
+            from { transform: translateY(30%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes scale-up-box {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.7);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <a href="index.html" class="back-link">&larr; back</a>
+        <div class="clouds">
+            <img src="/static/image/cloud.png" alt="Awan" class="cloud cloud1">
+            <img src="/static/image/cloud.png" alt="Awan" class="cloud cloud2">
+            <img src="/static/image/cloud.png" alt="Awan" class="cloud cloud3">
+        </div>
+        <div class="upload-container">
+            <!-- PERBAIKAN DI SINI: Hapus action, method, dan enctype -->
+            <form id="upload-form">
+                <label for="file-upload" class="upload-area">
+                    <span class="upload-title">Click Here!</span>
+                    <div class="icon-placeholder">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 5H4V19H20V5M20 3A2 2 0 0 1 22 5V19A2 2 0 0 1 20 21H4A2 2 0 0 1 2 19V5A2 2 0 0 1 4 3H20M15.9 12.5L18 15V17H6V14L9.5 9.5L12.4 13.1L15.9 12.5Z"/></svg>
+                    </div>
+                    <div id="file-name-display"></div>
+                </label>
+                <input type="file" id="file-upload" name="image" accept="image/*" required style="display: none;">
+                <button type="submit" class="upload-button">UPLOAD</button>
+            </form>
+        </div>
+        <div class="foreground-scenery">
+            <img src="/static/image/taman.png" alt="Pemandangan taman">
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const fileUpload = document.getElementById('file-upload');
+            const fileNameDisplay = document.getElementById('file-name-display');
+            const uploadForm = document.getElementById('upload-form');
+            fileUpload.addEventListener('change', function() {
+                fileNameDisplay.textContent = this.files.length > 0 ? this.files[0].name : '';
+            });
+            uploadForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                if (fileUpload.files.length === 0) {
+                    alert('Please select an image first!');
+                    return;
+                }
+                const button = event.target.querySelector('button');
+                button.disabled = true;
+                button.textContent = 'ANALYZING...';
+                const formData = new FormData();
+                formData.append('image', fileUpload.files[0]);
+                try {
+                    const response = await fetch('http://localhost:5000/api/analyze', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    if (!response.ok) {
+                        const err = await response.json();
+                        throw new Error(err.error || 'Failed to analyze image.');
+                    }
+                    const data = await response.json();
+                    if (data.result_id) {
+                        window.location.href = `result.html?id=${data.result_id}`;
+                    } else {
+                        throw new Error('Could not get result ID from server.');
+                    }
+                } catch (error) {
+                    alert(error.message);
+                    button.disabled = false;
+                    button.textContent = 'UPLOAD';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

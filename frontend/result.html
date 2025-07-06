@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasil Analisis - Metadata Cleaner</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jersey+10&display=swap" rel="stylesheet">
+    
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Jersey 10', sans-serif;
+            background-color: #91C8E4; 
+            overflow: hidden;
+        }
+
+        .page-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column; 
+        }
+
+        .back-link {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            color: #FFFBDE;
+            text-decoration: none;
+            z-index: 20;
+        }
+
+        .foreground-scenery {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 5;
+            pointer-events: none;
+            line-height: 0;
+            opacity: 0;
+            transform: translateY(20%);
+            animation: slide-up-scenery 1s ease-out 0.3s forwards;
+        }
+
+        .foreground-scenery img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .result-container {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #FFFBDE;
+            border-radius: 25px;
+            border: 3px dashed #aed8ea;
+            padding: 1.5rem 2rem;
+            text-align: center;
+            z-index: 10;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            color: #3a3a3a;
+            width: 80%;
+            max-width: 600px;
+            max-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            animation: scale-up-box 0.7s ease-out 0.8s forwards;
+        }
+
+        .result-container h1 {
+            font-size: 2.5em;
+            color: #00A9FF;
+            margin: 0 0 1rem 0;
+            text-shadow: 3px 3px 0px #b0eaff;
+        }
+
+        .result-content {
+            display: flex;
+            width: 100%;
+            gap: 1.5rem;
+        }
+
+        .metadata-section {
+            flex: 1;
+            text-align: left;
+            overflow-y: auto;
+            padding-right: 1rem;
+            border-right: 2px solid #aed8ea;
+        }
+
+        .metadata-section p {
+            font-size: 1.2em;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .metadata-section ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            font-size: 0.9em;
+        }
+
+        .metadata-section li {
+            margin-bottom: 0.3rem;
+            word-wrap: break-word;
+        }
+
+        .preview-section {
+            flex-basis: 200px;
+            text-align: center;
+        }
+
+        .preview-section h2 {
+            font-size: 1.3em;
+            color: #3a3a3a;
+            margin: 0 0 0.7rem 0;
+        }
+
+        .cleaned-img {
+            max-width: 100%;
+            border: 3px solid #aed8ea;
+            border-radius: 10px;
+        }
+
+        .download-button {
+            font-family: 'Jersey 10', sans-serif;
+            font-size: 1.5em;
+            background-color: #CDF5FD;
+            border: 3px solid #00A9FF;
+            color: #00A9FF;
+            padding: 5px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 3px 3px 0px #00A9FF;
+            transition: all 0.1s ease-in-out;
+            margin-top: 0.8rem;
+            text-decoration: none;
+        }
+
+        .download-button:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #00A9FF;
+        }
+
+        .clouds {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1; pointer-events: none;
+        }
+
+        .cloud {
+            position: absolute;
+            animation: move-clouds linear infinite;
+            opacity: 0.9;
+        }
+
+        .cloud1 { width: 300px; top: 15%; animation-duration: 70s; right: 50px; }
+        .cloud2 { width: 400px; top: 30%; animation-duration: 50s; animation-delay: -5s; left: -150px; }
+
+        @keyframes move-clouds {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(100vw); }
+        }
+
+        @keyframes slide-up-scenery {
+            from { transform: translateY(20%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes scale-up-box {
+            from { transform: translate(-50%, -50%) scale(0.7); opacity: 0; }
+            to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <a href="cleaned.html" class="back-link">&larr; back</a>
+        <div class="clouds">
+            <img src="/static/image/cloud.png" alt="Awan" class="cloud cloud1">
+            <img src="/static/image/cloud.png" alt="Awan" class="cloud cloud2">
+        </div>
+        <div class="result-container">
+            <h1>analyze Result</h1>
+            <div class="result-content">
+                <div class="metadata-section">
+                    <!-- DIUBAH: Bagian ini sekarang kosong dengan ID agar bisa diisi oleh JavaScript -->
+                    <p>File: <strong id="original-filename">Loading...</strong></p>
+                    <div id="metadata-details">
+                        <p>Fetching analysis results...</p>
+                    </div>
+                </div>
+                <div class="preview-section">
+                    <h2>Clean Image:</h2>
+                    <!-- DIUBAH: Bagian ini juga kosong dengan ID -->
+                    <img id="cleaned-image" class="cleaned-img" src="" alt="Cleaned Image">
+                    <br>
+                    <a id="download-link" class="download-button" href="">⬇ Download</a>
+                </div>
+            </div>
+        </div>
+        <div class="foreground-scenery">
+            <img src="/static/image/taman.png" alt="Pemandangan taman">
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const params = new URLSearchParams(window.location.search);
+            const resultId = params.get('id');
+            const metadataContainer = document.getElementById('metadata-details');
+            if (!resultId) {
+                metadataContainer.innerHTML = '<p>🚫 Error: Result ID not found in URL.</p>';
+                return;
+            }
+            try {
+                const response = await fetch(`http://localhost:5000/api/result/${resultId}`);
+                if (!response.ok) {
+                    const err = await response.json();
+                    throw new Error(err.error || 'Could not fetch analysis results.');
+                }
+                const data = await response.json();
+                document.getElementById('original-filename').textContent = data.original_filename;
+                metadataContainer.innerHTML = '';
+                if (data.has_metadata && Object.keys(data.metadata).length > 0) {
+                    const p = document.createElement('p');
+                    p.innerHTML = `✅ EXIF metadata found (${Object.keys(data.metadata).length} entries):`;
+                    metadataContainer.appendChild(p);
+                    const ul = document.createElement('ul');
+                    for (const key in data.metadata) {
+                        if (key !== "GPSInfo") {
+                            const li = document.createElement('li');
+                            li.innerHTML = `<strong>${key}:</strong> ${data.metadata[key]}`;
+                            ul.appendChild(li);
+                        }
+                    }
+                    metadataContainer.appendChild(ul);
+                    if (data.gps_link) {
+                         const gpsP = document.createElement('p');
+                         gpsP.innerHTML = `📍 Location detected: <a href="${data.gps_link}" target="_blank">View on Google Maps</a>`;
+                         metadataContainer.appendChild(gpsP);
+                    }
+                } else {
+                    const p = document.createElement('p');
+                    p.textContent = '🚫 No EXIF metadata was found.';
+                    metadataContainer.appendChild(p);
+                }
+                document.getElementById('cleaned-image').src = data.clean_image_url;
+                document.getElementById('download-link').href = data.clean_image_url;
+            } catch (error) {
+                metadataContainer.innerHTML = `<p>🚫 Error: ${error.message}</p>`;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    container_name: metadata-backend-multipage
+    ports:
+      - "5000:5000"
+    volumes:
+      # Volume untuk gambar bersih dan file hasil JSON
+      - ./backend/static:/app/static
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: metadata-frontend-multipage
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
