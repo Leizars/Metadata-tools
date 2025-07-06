@@ -6,18 +6,14 @@ import piexif
 import json
 import uuid
 
-# Inisialisasi aplikasi Flask
 app = Flask(__name__)
-# Mengaktifkan CORS untuk mengizinkan permintaan dari domain lain (frontend)
 CORS(app)
 
-# Menyiapkan direktori yang dibutuhkan saat aplikasi dimulai
 CLEANED_FOLDER = 'static/cleaned'
 RESULTS_FOLDER = 'static/results'
 os.makedirs(CLEANED_FOLDER, exist_ok=True)
 os.makedirs(RESULTS_FOLDER, exist_ok=True)
 
-# --- Fungsi Helper ---
 def get_readable_metadata(exif_dict):
     """Mengubah data EXIF mentah menjadi format yang lebih mudah dibaca."""
     metadata = {}
@@ -40,10 +36,7 @@ def convert_to_degrees(value):
     m = float(value[1][0]) / float(value[1][1])
     s = float(value[2][0]) / float(value[2][1])
     return d + (m / 60.0) + (s / 3600.0)
-# --- Akhir Fungsi Helper ---
 
-
-# --- Endpoint API ---
 
 @app.route('/api/analyze', methods=['POST'])
 def analyze_api():
@@ -54,7 +47,6 @@ def analyze_api():
     image_file = request.files['image']
     original_filename = image_file.filename
 
-    # Buat ID unik untuk setiap proses agar file tidak tumpang tindih
     unique_id = str(uuid.uuid4())
     temp_path = os.path.join(CLEANED_FOLDER, f"temp_{unique_id}_{original_filename}")
     image_file.save(temp_path)
@@ -84,22 +76,18 @@ def analyze_api():
                     if lon_ref == 'W': lon = -lon
                     result_data["gps_link"] = f"https://www.google.com/maps?q={lat},{lon}"
 
-        # Simpan gambar versi bersih tanpa metadata
         clean_name = f"cleaned_{unique_id}_{original_filename}"
         clean_path = os.path.join(CLEANED_FOLDER, clean_name)
         img.save(clean_path, "jpeg", exif=b'')
-        os.remove(temp_path) # Hapus file sementara
+        os.remove(temp_path) 
 
-        # Buat URL lengkap untuk diakses dari frontend
         result_data["clean_image_url"] = f"{request.host_url}download/{clean_name}"
         
-        # Simpan hasil analisis sebagai file JSON yang terpisah
         result_id = f"{unique_id}_{original_filename}"
         result_json_path = os.path.join(RESULTS_FOLDER, f"{result_id}.json")
         with open(result_json_path, 'w') as f:
             json.dump(result_data, f)
             
-        # Kembalikan hanya ID uniknya ke frontend
         return jsonify({"result_id": result_id})
 
     except Exception as e:
@@ -121,6 +109,5 @@ def download(filename):
     """Endpoint untuk mengunduh file gambar yang sudah bersih."""
     return send_file(os.path.join(CLEANED_FOLDER, filename), as_attachment=True)
 
-# Perintah untuk menjalankan aplikasi Flask
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

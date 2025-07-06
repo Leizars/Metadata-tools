@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    // Ambil ID dari URL
+
     const params = new URLSearchParams(window.location.search);
     const resultId = params.get('id');
 
@@ -11,16 +11,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     try {
-        // Minta data lengkap dari backend menggunakan ID
+   
         const response = await fetch(`http://localhost:5000/api/result/${resultId}`);
         if (!response.ok) throw new Error('Could not fetch analysis results.');
 
         const data = await response.json();
 
-        // Isi halaman dengan data yang diterima
         document.getElementById('original-filename').textContent = data.original_filename;
 
-        metadataContainer.innerHTML = ''; // Kosongkan
+        metadataContainer.innerHTML = ''; 
         if (data.has_metadata) {
             const p = document.createElement('p');
             p.innerHTML = `✅ EXIF metadata found (${Object.keys(data.metadata).length} entries):`;
@@ -28,7 +27,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             const ul = document.createElement('ul');
             for (const key in data.metadata) {
-                if (key !== "GPSInfo") { // Jangan tampilkan info mentah GPS
+                if (key !== "GPSInfo") { 
                     const li = document.createElement('li');
                     li.innerHTML = `<strong>${key}:</strong> ${data.metadata[key]}`;
                     ul.appendChild(li);
